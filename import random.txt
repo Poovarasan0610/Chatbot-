@@ -1,0 +1,39 @@
+import random
+
+# Context storage for the chatbot
+context = {}
+
+# Responses for the chatbot
+responses = {
+    "greeting": ["Hello! How can I assist you?", "Hi there! What can I do for you?"],
+    "farewell": ["Goodbye! Have a great day!", "Bye! Take care!"],
+    "fallback": ["I'm not sure I understand. Could you clarify?", "Can you rephrase that, please?"],
+    "name": ["I'm your friendly chatbot!", "You can call me Chatbot."],
+}
+
+# Function to handle input and maintain context
+def chatbot_response(user_input):
+    global context
+
+    if "hello" in user_input.lower() or "hi" in user_input.lower():
+        context["last_intent"] = "greeting"
+        return random.choice(responses["greeting"])
+    elif "bye" in user_input.lower() or "goodbye" in user_input.lower():
+        context["last_intent"] = "farewell"
+        return random.choice(responses["farewell"])
+    elif "your name" in user_input.lower():
+        context["last_intent"] = "name"
+        return random.choice(responses["name"])
+    else:
+        context["last_intent"] = "fallback"
+        return random.choice(responses["fallback"])
+
+# Main loop for user interaction
+if __name__ == "__main__":
+    print("Chatbot: Hello! I'm your NLP Chatbot. Type 'bye' to exit.")
+    while True:
+        user_message = input("You: ")
+        if "bye" in user_message.lower():
+            print("Chatbot:", chatbot_response(user_message))
+            break
+        print("Chatbot:", chatbot_response(user_message))
